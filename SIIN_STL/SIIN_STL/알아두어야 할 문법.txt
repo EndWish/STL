@@ -1,0 +1,202 @@
+주의할 사항
+실행환경 Release/x64, c++ last , using namespace std	=> 파일 분리할때도 생각해야함
+&의 이용
+템플릿은 선언과 정의를 동시에 해야한다. (템플릿으로 만들어지는 함수의 우선순위가 가장 낮다.)
+오버플로우 주의
+
+0b01111111'11111111'11111111'11111111
+0xFFFFFFFF
+numeric_limits<int>::max()
+
+random_device rd;
+default_random_engine dre{rd()};
+uniform_int_distribution uid{1,1000};		//uid(dre) 로 사용
+
+string_view
+""s
+format("{:^80}", 변수);	// <,^,>,= 을 이용해 정렬, 부호앞에 문자로 빈칸채움
+
+#include <chrono>
+auto time = floor<chrono::seconds>(chrono::system_clock::now());
+chrono::zoned_time("Asia/Seoul", time)
+floor<chrono::seconds>(chrono::system_clock::now())
+
+istream_iterator<char>{}
+istreambuf_iterator<char>{}
+ostream_iterator<char>{out, "\n"}	// 한 문자를 쓸때마다 "\n"를 덧붙인다.
+in >> noskipws		// wide space를 스킵하지 않는다.
+cout << boolalpha		// bool형을 true, false로 출력
+
+ifstream in{파일이름, 형식}
+ofstream out{파일이름, 형식}
+if(!in) { }
+ios::app	//이어쓰기
+ios::binary // 바이너리 파일
+std::filesystem::file_size()
+out.write((const char*)&num, sizeof(int) );	// int를 저장
+in.read((char*)num.data(), sizeof(int) * 1000 );
+
+friend ostream& operator<<(ostream& , const Dog& );
+
+friend istream& operator>>(istream& is, Test& t) {
+		is >> t.id >> t.word;
+		return is;
+	}
+
+STRING(const STRING& other);
+STRING& operator=(const STRING& other);
+STRING(STRING&& other) noexcept;
+STRING& operator=(STRING&& other) noexcept;
+STRING operator+(const STRING& rhs) const;	
+
+[](){} 함다의 형식, 캡쳐 : []에 외부의 변수를 넣어 사용할 수 있도록 하는 것
+
+unique_ptr<Dog[]> p{new Dog[3]};
+
+addressof(변수);	// 메모리 위치 출력
+typeid(변수).name()		// 데이터 타입 출력
+this_thread::sleep_for(1s);	// std::literals
+짝수인지 확인 하는 수식 : !(n & 1)
+
+함수
+copy(src.begin(), src.end(), dest.begin() );
+*max_element(istream_iterator<int>{in}, {})
+*max_element(begin(num), end(num))
+accumulate<int*, lli>(p, p + num, 0LL)	// 오버플로우 주의, #include<numeric>
+isalpha(ch);
+isupper(ch);
+toupper(ch);
+tolower(ch);
+isdigit(ch);
+transform( begin(), end(), dest.bedin(), []f(char c){return c;} );
+sort(begin(), end(), 람다)
+memcpy(dest, src, sizeof(int) * num );
+find(d.begin(), d.end(), "dynamic")	// 순차비교하여 젤 처음 발견된것의 iter을 반환
+begin() - end()은 index가 나온다.
+distance(begin(), end())
+count(begin(), end(), 'a');
+copy_if(begin(), end(), ostream_iterator<>{out,"\n}, 람다);
+remove(v.begin(), v.end(), 값또는 함수);	// v.erase함수와 함께 사용
+next(v.begin(), n);
+
+unique(s.begin(), s.end()), s.end())	// 이웃하는 원소가 겹칠경우 제거 -> sort를 해야하고 erase로 없애줘야함.
+iota(v.begin(), v.end(), 1);
+shuffle(v.begin(), v.end(), dre);
+auto [하한, 상한] = s.equal_range(word);	// 이진탐색 범위로 받기
+allof(v.begin(), v.end(), 조건); 	// 모두 "조건"인가?
+rotate(str.begin(), str.end() - 1, str.end());
+auto[s1의다른위치, s2의다른위치] =  mismatch(s1.begin(), s1.end(), s2.begin());
+sample(v.begin(), v.end(), balls.begin(), 개수, dre);	//추첨하기
+auto p = partition(v.begin(), v.end(), [](int n) {return n & 1;});	// 홀짝으로 분리
+nth_element(v.begin(), v.begin() + 50, v.end());	// 50등까지만 통과시킨다(50등안이면 정렬순서는 상관없으며, 동점일 경우 아무나 넣음)
+partial_sort(v.begin(), v.begin() + 50, v.end());		// nth_element + sort
+ranges::sort(v, less<int>(), &Dog::getNum);	// 오름차순, 맴버변수로 정렬
+ranges::is_sorted(v, less<string>{});	//정렬되어 있는지 확인
+auto i = adjacent_find(b, v.cend(), [](const WP& a, const WP& b) {return a.first == b.first;});	// 이웃하는 값이 있으면 그 시작위치를 리턴, end까지 도달하면 end를 리턴
+auto j = find_if_not(i + 1, v.cend(), [i](const WP& a) {return a.first == i->first;});	// 처음으로 초건이 맞지 않는 위치를 리턴
+
+views::take(10)	//10개까지 선택
+views::filter(홀수) 	// 람다(callable)를 넘겨준다. 조건식만 선택한다.
+views::transform(제곱)	// 람다를 넘겨준다.	리턴값으로 변환한다.
+views::reverse	//역준으로
+views::drop(100)	// 100개를 무시한다.
+
+(void*)p; 를 이용해 문자가 아닌 주소를 출력한다.
+
+컨테이너
+v.max_size()
+v.size()
+v.capacity()
+v.data() 
+v.emplace_back()	// 매개변수를 전달해줘야 의미가 있다.
+v.push_back()
+v.insert(v.begin() + 2, 3);
+
+용어?:
+함수호출의 종류 : 함수포인터, 람다, ()를 오버로딩한 class
+패딩 : 속도 상승을 위해 메모리를 8바이트 단위로 할당, 
+
+
+
+
+typeid(iterator_traits<Iter>::iterator_category).name() : 반복자를 인자로 받아 어떤 종류인지 출력한다 : 
+is_base_of_v<input_iterator_tag, typename iterator_traits<Iter>::iterator_category>	//부모인지 확인	
+contiguous_iterator<Iter>		//컨셉
+random_access_iterator<Iter>
+bidirectional_iterator<Iter>
+forward_iterator<Iter>
+input_iterator<Iter>
+
+if constexpr (is_same_v<typename iterator_traits<Iter>::iterator_category, random_access_iterator_tag>) {
+	cout << " -로 계산 " << endl;
+	return e - b;
+}
+
+copy(istreambuf_iterator<char>{cin}, {}, back_inserter(v)); : 벡터에 메모리를 차지 하지 않더라도 넣는 방법
+
+//  스팬 이용
+void print(span<int> a)
+{
+	cout << "span<int>이 차지한 메모리 크기 - " << a.size_bytes() << endl;
+	for (int i = 0; i < a.size(); ++i)
+		cout << a[i] << endl;
+	cout << endl;
+}
+int a[10]{ 1,2,3,4,5 };
+print(a);	// int[10] -> span<int> 로 변환되어 전달된다.
+
+
+
+set<string> s(istream_iterator<string>{in}, {});
+방법1)
+class 정렬가능한타입 {
+public:
+	bool operator()(const Dog& a, const Dog& b) const	// 한정자(const, volatile), const를 써서 set의 원소를 바꾸지 않겠다고 보장해줘야 한다. 
+	{
+		return a.getName() < b.getName();
+	}
+};
+방법2)
+bool operator<(const Dog& rhs) const {	//기본 정렬기준, const를 붙여줘야 작동한다.
+	return num < rhs.num;
+}
+방법3)
+auto 정렬기준 = [](const Dog& a, const Dog& b)
+{
+	return a.getName() < b.getName();
+};
+set<Dog, decltype(정렬기준)> s;
+
+// Default일때 진행되는 상황 :
+// 1. less<Dog>이 있나 찾는다. (+표준에 Dog를 넣는건 합당하지 않다 : less<Dog>를 정의하는건 합당x)
+// 2. operator<(Dog, Dog)가 있나 찾는다.
+//	2-1 멤버함수로
+//	2-2 전역함수도 가능
+// 3. 정렬기준을 직접 알려준다. 템플릿의 인자로 타입을 전달
+multiset<string> s(istream_iterator<string>{in}, {});  	s.find(word);		s.contains(word);
+
+
+map<string, double> sd;	// 데이터가 중복되지 않음에 주의하라.
+sd["바나나"] = 9.3;	// sd.operator[]("바나나") = 9.3;
+
+unordered_set<int>
+unordered_set<STRING, hash<STRING>> us{ "Standard", "Template", "Library"};
+		for (int i{}; i < us.bucket_count(); ++i) {	// 버킷카운드
+			cout << "[" << i << "]";
+			for (auto p = us.begin(i); p != us.end(i); ++p) {	// i번째 버킷을 의미한다.
+				cout << " -> " << *p;
+			}
+			cout << endl;
+		}
+
+//
+	auto result = allof(v.begin(), v.end(), [](const STRING& s) {
+		return 5 <= s.getNum();
+		});
+
+
+int a[]{ 1,3,5,7,9,2,4,6,8,10 };
+auto v = views::all(a);
+ranges::sort(v);	// list는 랜덤엑서스가 아니기 때문에 빨간줄이 끄인다.
+
+

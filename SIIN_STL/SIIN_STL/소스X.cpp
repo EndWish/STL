@@ -1,0 +1,5 @@
+Russia has warned Japan of "retaliatory measures" if it expands joint naval exercises with the United States near Russia's eastern borders.
+
+The threat is just the latest salvo from Moscow, which has been angered by Japan's support for Ukraine and its growing ties with NATO countries, and is turning up the heat in a long-running dispute over the sovereignty of islands captured by Soviet forces at the end of World War II.
+Russian Deputy Foreign Minister Igor Morgulov said Tuesday that US - Japan naval exercises were "potentially offensive in nature," according to a report on Tuesday by Russian state news agency RIA - Novosti.
+"We see such actions by the Japanese side as a threat to the security of our country," Morgulov said. "If such practices expand, Russia will take retaliatory measures in the interests of strengthening its defense capabilities."
